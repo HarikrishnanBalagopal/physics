@@ -1,13 +1,23 @@
-import { NUM_SUB_STEPS, TIME_STEP } from "./common/globals.js";
+import { NUM_SUB_STEPS, NUM_PARTICLES, TIME_STEP, DATA } from "./common/globals.js";
 import { draw, reset as resetDisplay } from "./display/setup.js";
-import { constrain_particles, reset as resetPhysics, solve_collisions, update_particles } from "./physics/setup.js";
+import {
+    constrain_particles,
+    reset as resetPhysics,
+    reset_empty,
+    solve_collisions,
+    update_particles,
+} from "./physics/setup.js";
+import { new_particle_from_fountain } from './physics/utils.js';
 
 function main() {
     console.log('main start');
-    const num_particles = 250;
     const can = document.querySelector('canvas');
+
+    let filling = false;
+
     const reset = () => {
-        resetPhysics(num_particles);
+        filling = false;
+        resetPhysics(NUM_PARTICLES);
         resetDisplay(can);
         draw();
     };
@@ -17,6 +27,7 @@ function main() {
 
     // loop
     let last_t = null;
+    let last_filled_t = null;
     const step = (t) => {
         if (!running) return;
         requestAnimationFrame(step);
@@ -24,6 +35,20 @@ function main() {
         const dt = t - last_t;
         if (dt < TIME_STEP) return;
         last_t = t;
+        if (filling) {
+            // filling
+            const particles = DATA.particles;
+            if (particles.length >= NUM_PARTICLES) {
+                filling = false;
+            } else {
+                if (!last_filled_t) last_filled_t = t;
+                if (t - last_filled_t >= 50) {
+                    last_filled_t = t;
+                    console.log('filling');
+                    particles.push(new_particle_from_fountain(t * 0.1));
+                }
+            }
+        }
         const sub_dt = dt / NUM_SUB_STEPS;
         for (let i = 0; i < NUM_SUB_STEPS; i++) {
             update_particles(sub_dt);
@@ -46,6 +71,12 @@ function main() {
             button_start_stop.textContent = 'stop';
             requestAnimationFrame(step);
         }
+    });
+
+    const button_fill = document.querySelector('#button-fill');
+    button_fill.addEventListener('click', () => {
+        reset_empty();
+        filling = true;
     });
 
     console.log('main end');

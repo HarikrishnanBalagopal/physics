@@ -1,5 +1,27 @@
-import { CONSTRAINT_CIRCLE_CENTER, CONSTRAINT_CIRCLE_RADIUS, GRAVITY } from "../common/globals.js";
-import { add_2, len_2, norm_2, scale_2, sub_2 } from "../math/vec.js";
+import { CONSTRAINT_CIRCLE_CENTER, CONSTRAINT_CIRCLE_RADIUS, GRAVITY, W, H, PARTICLE_MIN_RADIUS, PARTICLE_MAX_RADIUS } from "../common/globals.js";
+import { add_2, len_2, norm_2, dir_deg_2, scale_2, sub_2, mul_2, rand_2, rand_range } from "../math/vec.js";
+
+export function new_particle() {
+    const p = mul_2([W, H], rand_2());
+    return {
+        pos: p,
+        old_pos: p,
+        radius: rand_range(PARTICLE_MIN_RADIUS, PARTICLE_MAX_RADIUS),
+        color: 360 * Math.random(),
+    };
+}
+
+export function new_particle_from_fountain(t) {
+    const cen = CONSTRAINT_CIRCLE_CENTER;
+    const p = add_2(cen, scale_2(-20, dir_deg_2(t)));
+    const old_p = add_2(cen, scale_2(-30, dir_deg_2(t)));
+    return {
+        pos: p,
+        old_pos: old_p,
+        radius: rand_range(PARTICLE_MIN_RADIUS, PARTICLE_MAX_RADIUS),
+        color: Math.floor(t * 0.25) % 360,
+    };
+}
 
 export function update_particle(p, dt) {
     const old_vel_dt = sub_2(p.pos, p.old_pos);

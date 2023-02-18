@@ -1,16 +1,6 @@
-import { DATA, H, W } from "../common/globals.js";
-import { mul_2, rand_2, rand_n } from '../math/vec.js';
-import { constrain_particle, solve_collision, update_particle } from "./utils.js";
-
-export function new_particle() {
-    const p = mul_2([W, H], rand_2());
-    return {
-        pos: p,
-        old_pos: p,
-        radius: 10+rand_n(10),
-        color: 360 * Math.random(),
-    };
-}
+import { DATA, CONSTRAINT_CIRCLE_CENTER, PARTICLE_MIN_RADIUS, PARTICLE_MAX_RADIUS } from "../common/globals.js";
+import { rand_n, dir_2, scale_2, dir_deg_2, add_2, rand_range } from '../math/vec.js';
+import { constrain_particle, solve_collision, new_particle, update_particle } from "./utils.js";
 
 export function reset(num_particles) {
     const particles = [];
@@ -18,6 +8,10 @@ export function reset(num_particles) {
         particles.push(new_particle());
     }
     DATA.particles = particles;
+}
+
+export function reset_empty() {
+    DATA.particles = [];
 }
 
 export function update_particles(dt) {
