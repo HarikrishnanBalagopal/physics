@@ -7,7 +7,7 @@ export function draw_background(ctx) {
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, W, H);
     const [x, y] = CONSTRAINT_CIRCLE_CENTER;
-    draw_circle(ctx, x, y, CONSTRAINT_CIRCLE_RADIUS);
+    // draw_circle(ctx, x, y, CONSTRAINT_CIRCLE_RADIUS);
     ctx.restore();
 }
 

@@ -14,3 +14,4 @@ export const to_rad = (a) => PI * a / 180;
 export const dir_2 = (a) => [Math.cos(a), Math.sin(a)];
 export const dir_deg_2 = (a) => [Math.cos(to_rad(a)), Math.sin(to_rad(a))];
 export const rand_range = (min, max) => min + Math.floor((max - min) * Math.random());
+export const lerp_2 = (s, v1, v2) => add_2(scale_2(1 - s, v1), scale_2(s, v2));

@@ -57,7 +57,7 @@ function main() {
         for (let i = 0; i < NUM_SUB_STEPS; i++) {
             solve_collisions(sub_dt);
             update_particles(sub_dt);
-            constrain_particles();
+            // constrain_particles();
         }
         draw();
     };
