@@ -12,6 +12,8 @@ import { new_particle_from_fountain } from './physics/utils.js';
 function main() {
     console.log('main start');
     const can = document.querySelector('canvas');
+    const output_time = document.querySelector('#output-time');
+    const output_num_particles = document.querySelector('#output-num-particles');
 
     let filling = false;
 
@@ -30,6 +32,9 @@ function main() {
     let last_filled_t = null;
     const step = (t) => {
         if (!running) return;
+        const particles = DATA.particles;
+        output_time.textContent = `time: ${t}`;
+        output_num_particles.textContent = `particles: ${particles?.length}`;
         requestAnimationFrame(step);
         if (!last_t) last_t = t;
         const dt = t - last_t;
@@ -37,7 +42,6 @@ function main() {
         last_t = t;
         if (filling) {
             // filling
-            const particles = DATA.particles;
             if (particles.length >= NUM_PARTICLES) {
                 filling = false;
             } else {
@@ -51,8 +55,8 @@ function main() {
         }
         const sub_dt = dt / NUM_SUB_STEPS;
         for (let i = 0; i < NUM_SUB_STEPS; i++) {
+            solve_collisions(sub_dt);
             update_particles(sub_dt);
-            solve_collisions();
             constrain_particles();
         }
         draw();

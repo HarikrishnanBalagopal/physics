@@ -46,9 +46,10 @@ export function solve_collision(p1, p2) {
     const required_d = p1.radius + p2.radius;
     if (d >= required_d) return;
     const diff = required_d - d;
+    const response_coeff = 0.5;
     const m1 = p1.radius / (p1.radius + p2.radius);
     const m2 = p2.radius / (p1.radius + p2.radius);
     const dir = norm_2(p1_p2);
-    p1.pos = add_2(p1.pos, scale_2(m2 * diff, dir));
-    p2.pos = add_2(p2.pos, scale_2(-m1 * diff, dir));
+    p1.pos = add_2(p1.pos, scale_2(m2 * diff*response_coeff, dir));
+    p2.pos = add_2(p2.pos, scale_2(-m1 * diff*response_coeff, dir));
 }

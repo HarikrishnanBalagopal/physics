@@ -22,3 +22,13 @@ body {
     flex-grow: 1;
     font-size: 2em;
 }
+
+.output-metrics {
+    flex-grow: 1;
+    border: 1em solid #224455;
+    display: grid;
+    font-size: 2em;
+    font-family: monospace;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+}
