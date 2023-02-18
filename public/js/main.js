@@ -1,4 +1,4 @@
-import { NUM_SUB_STEPS, NUM_PARTICLES, TIME_STEP, DATA } from "./common/globals.js";
+import { NUM_SUB_STEPS, NUM_PARTICLES, TIME_STEP, DATA, EPSILON } from "./common/globals.js";
 import { draw, reset as resetDisplay } from "./display/setup.js";
 import {
     constrain_particles,
@@ -14,6 +14,12 @@ function main() {
     const can = document.querySelector('canvas');
     const output_time = document.querySelector('#output-time');
     const output_num_particles = document.querySelector('#output-num-particles');
+    const output_fps = document.querySelector('#output-fps');
+    const checkbox_constraint = document.querySelector('#checkbox-constraint');
+    checkbox_constraint.addEventListener('change', () => {
+        console.log('checkbox_constraint.checked', checkbox_constraint.checked);
+        DATA.constraint = checkbox_constraint.checked;
+    });
 
     let filling = false;
 
@@ -30,6 +36,7 @@ function main() {
     // loop
     let last_t = null;
     let last_filled_t = null;
+    let ema_dt = 0;
     const step = (t) => {
         if (!running) return;
         const particles = DATA.particles;
@@ -40,6 +47,9 @@ function main() {
         const dt = t - last_t;
         if (dt < TIME_STEP) return;
         last_t = t;
+        ema_dt = 0.9 * ema_dt + 0.1 * dt;
+        const fps = 1000 / (ema_dt + EPSILON);
+        output_fps.textContent = `fps: ${Math.round(fps * 100) / 100}`;
         if (filling) {
             // filling
             if (particles.length >= NUM_PARTICLES) {
@@ -57,7 +67,7 @@ function main() {
         for (let i = 0; i < NUM_SUB_STEPS; i++) {
             solve_collisions(sub_dt);
             update_particles(sub_dt);
-            // constrain_particles();
+            if (DATA.constraint) constrain_particles();
         }
         draw();
     };

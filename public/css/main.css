@@ -1,3 +1,7 @@
+:root {
+    --color-dark-blue: #224455;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -9,6 +13,13 @@ body {
 .wrapper {
     display: flex;
     padding: 1em;
+    flex-direction: column;
+}
+
+@media (min-width: 1250px) {
+    .wrapper {
+        flex-direction: row;
+    }
 }
 
 .controls {
@@ -25,10 +36,22 @@ body {
 
 .output-metrics {
     flex-grow: 1;
-    border: 1em solid #224455;
+    border: .1em solid var(--color-dark-blue);
     display: grid;
     font-size: 2em;
     font-family: monospace;
     grid-template-columns: 1fr 1fr;
-    place-items: center;
+    place-content: center;
+}
+
+.output-metrics span {
+    border: 1px solid var(--color-dark-blue);
+}
+
+.controls-input {
+    flex-grow: 1;
+    font-family: monospace;
+    font-size: 1.5em;
+    padding: .5em;
+    border: 1px solid var(--color-dark-blue);
 }

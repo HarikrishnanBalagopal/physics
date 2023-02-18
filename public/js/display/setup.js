@@ -7,6 +7,7 @@ export function reset(can) {
     can.height = H;
     const ctx = can.getContext('2d');
     DATA.ctx = ctx;
+    DATA.constraint = false;
     console.log('display reset end');
 }
 
@@ -19,6 +20,6 @@ export function draw_particles(ctx) {
 
 export function draw() {
     const ctx = DATA.ctx;
-    draw_background(ctx);
+    draw_background(ctx, DATA.constraint);
     draw_particles(ctx);
 }

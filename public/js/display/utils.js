@@ -2,12 +2,14 @@ import { CONSTRAINT_CIRCLE_CENTER, CONSTRAINT_CIRCLE_RADIUS, H, PI, W } from "..
 
 export const toHSL = (h) => `hsl(${h} 100% 50%)`;
 
-export function draw_background(ctx) {
+export function draw_background(ctx, constraint = false) {
     ctx.save();
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, W, H);
-    const [x, y] = CONSTRAINT_CIRCLE_CENTER;
-    // draw_circle(ctx, x, y, CONSTRAINT_CIRCLE_RADIUS);
+    if (constraint) {
+        const [x, y] = CONSTRAINT_CIRCLE_CENTER;
+        draw_circle(ctx, x, y, CONSTRAINT_CIRCLE_RADIUS, '#222222');
+    }
     ctx.restore();
 }
 
