@@ -1,4 +1,3 @@
-export const VERSION = '1.0.2';
 export const EPSILON = 0.000001;
 export const PI = Math.PI;
 export const W = 640;
@@ -18,6 +17,5 @@ export const PARTICLE_MAX_RADIUS = 25;
 export const DATA = {};
 
 console.log(
-    'VERSION', VERSION,
     'GRAVITY', GRAVITY,
 );

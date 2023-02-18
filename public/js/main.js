@@ -25,6 +25,7 @@ function main() {
 
     const reset = () => {
         filling = false;
+        checkbox_constraint.checked = false;
         resetPhysics(NUM_PARTICLES);
         resetDisplay(can);
         draw();
